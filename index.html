@@ -599,7 +599,7 @@ window.KK_DATA = {
       v.setAttribute("muted", ""); v.setAttribute("playsinline", ""); v.setAttribute("webkit-playsinline", "");
       v.setAttribute("aria-hidden", "true"); v.tabIndex = -1; v.preload = "auto";
       if (d.poster) v.poster = d.poster;
-      v.addEventListener("playing", function () { v.classList.add("on"); bg.className = bg.className.replace(" kb", ""); });
+      v.addEventListener("playing", function () { v.classList.add("on"); bg.style.backgroundImage = "none"; bg.className = bg.className.replace(" kb", ""); });
       v.addEventListener("error", function () { if (v.parentNode) v.parentNode.removeChild(v); v = null; });
       var u = src;
       if (src.indexOf("data:") === 0 && window.Blob && window.atob) {
