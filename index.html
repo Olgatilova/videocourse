@@ -1,0 +1,920 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#243b66">
+<title>Свой первый фильм на ИИ · видеокурс</title>
+<meta name="description" content="Видеокурс: свой первый мини-фильм на ИИ примерно на 1,5-2 минуты. 8 уроков, гайды, промпты, шаблоны.">
+<meta property="og:title" content="Свой первый фильм на ИИ">
+<meta property="og:description" content="Видеокурс: свой первый мини-фильм на ИИ примерно на 1,5-2 минуты">
+<meta property="og:type" content="website">
+<meta property="og:image" content="og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<!-- Скрипт Telegram лежит рядом с этим файлом. Без него страница работает как обычный сайт. -->
+<script src="telegram-web-app.js"></script>
+<style>
+/* Шрифты лежат в папке fonts рядом со страницей, интернет-сервисы не нужны */
+@font-face{font-family:"Oswald";font-weight:700;font-style:normal;font-display:swap;src:url(fonts/oswald-cyr-700.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Oswald";font-weight:700;font-style:normal;font-display:swap;src:url(fonts/oswald-lat-700.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Oswald";font-weight:600;font-style:normal;font-display:swap;src:url(fonts/oswald-cyr-600.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Oswald";font-weight:600;font-style:normal;font-display:swap;src:url(fonts/oswald-lat-600.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Inter";font-weight:100 900;font-style:normal;font-display:swap;src:url(fonts/inter-cyr.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Inter";font-weight:100 900;font-style:normal;font-display:swap;src:url(fonts/inter-lat.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+:root{
+  --blue:#2e4a7c; --blue-d:#243b66; --blue-dd:#1b2d4f;
+  --cream:#f6eedf; --gold:#f4d078; --gold-d:#e5bd5a;
+  --mut:rgba(246,238,223,.78); --line:rgba(246,238,223,.2); --card:rgba(255,255,255,.07);
+  --head:"Oswald","Arial Narrow","Roboto Condensed","Franklin Gothic Medium",Impact,sans-serif;
+  --body:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --pad:20px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--blue);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--blue);color:var(--cream);font:16px/1.6 var(--body);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;padding-bottom:calc(88px + env(safe-area-inset-bottom))}
+img,svg{max-width:100%}
+a{color:var(--gold)}
+p{margin:0 0 14px}
+.wrap{width:100%;max-width:1120px;margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+
+/* ---------- верхняя панель ---------- */
+.top{position:-webkit-sticky;position:sticky;top:0;z-index:40;background:rgba(36,59,102,.97);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);
+  padding-top:env(safe-area-inset-top)}
+.top .wrap{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+.brand{display:none;font:700 19px/1 var(--head);text-transform:uppercase;letter-spacing:.03em;color:var(--cream);text-decoration:none;margin-right:28px;white-space:nowrap}
+.brand b{color:var(--gold);font-weight:700}
+.tabs{display:-webkit-flex;display:flex;-webkit-flex:1;flex:1;min-width:0}
+.tabs a{-webkit-flex:1;flex:1;text-align:center;text-decoration:none;color:var(--mut);font:600 10px/1.1 var(--head);
+  letter-spacing:.06em;text-transform:uppercase;padding:12px 2px 9px;border-bottom:3px solid transparent;margin:0 2px;
+  position:relative;transition:color .2s}
+.tabs a:before{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;background:var(--line);transition:background .2s}
+.tabs a.on{color:var(--gold)}
+.tabs a.on:before{background:var(--gold)}
+.top .top-btn{display:none}
+
+/* ---------- кнопки ---------- */
+.btn{display:inline-block;text-align:center;text-decoration:none;cursor:pointer;border:0;border-radius:14px;
+  font:700 18px/1.15 var(--head);text-transform:uppercase;letter-spacing:.05em;padding:17px 26px;
+  background:var(--gold);color:var(--blue-dd);transition:background .2s,transform .2s;min-height:52px}
+.btn:hover{background:var(--gold-d)}
+.btn.ghost{background:transparent;color:var(--cream);border:1.5px solid var(--gold);padding:15.5px 24px}
+.btn.ghost:hover{background:rgba(244,208,120,.12)}
+.btn.block{display:block;width:100%}
+.btn[aria-disabled="true"]{opacity:.5}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid #fff;outline-offset:2px;border-radius:6px}
+
+/* ---------- секции ---------- */
+.sec{padding:52px 0 8px}
+.sec.alt{background:var(--blue-d);padding-bottom:52px;margin-top:44px}
+.sec + .sec{margin-top:0}
+.sec[id]{scroll-margin-top:46px}
+.lab{font:600 13px/1 var(--head);letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 12px}
+h1,h2,h3{margin:0;text-transform:uppercase;font-family:var(--head);font-weight:700}
+h2{font-size:clamp(30px,8.2vw,46px);line-height:1.05;margin-bottom:18px;max-width:20em}
+h3{font-size:22px;line-height:1.1;letter-spacing:.01em;margin:36px 0 14px}
+.lead{font-size:18px;color:var(--mut);max-width:42em}
+
+
+/* ---------- видео на подложке ---------- */
+.bg{position:absolute;left:0;top:0;right:0;bottom:0;background:#1b2d4f center/cover no-repeat}
+.bg video{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.4s}
+@-webkit-keyframes kb{from{-webkit-transform:scale(1);transform:scale(1)}to{-webkit-transform:scale(1.09);transform:scale(1.09)}}
+@keyframes kb{from{-webkit-transform:scale(1);transform:scale(1)}to{-webkit-transform:scale(1.09);transform:scale(1.09)}}
+.bg.kb{-webkit-animation:kb 16s ease-in-out infinite alternate;animation:kb 16s ease-in-out infinite alternate}
+.bg video.on{opacity:.6}
+.shade{position:absolute;left:0;top:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(27,45,79,.5) 0%,rgba(36,59,102,.55) 45%,rgba(36,59,102,.92) 100%)}
+.hero{position:relative;overflow:hidden}
+.hero>.wrap{position:relative}
+.vband{position:relative;overflow:hidden;padding:52px 0 40px;margin-top:44px}
+.vband .bg video.on{opacity:.75}
+.vband .shade{background:linear-gradient(180deg,rgba(27,45,79,.7) 0%,rgba(27,45,79,.5) 55%,rgba(27,45,79,.9) 100%)}
+.vband>.wrap{position:relative}
+.vband .les{margin-top:24px}
+.vband details{background:rgba(9,11,16,.5)}
+.sec.hasband{padding-top:0;margin-top:0}
+.sec.alt.hasband{margin-top:44px}
+@media (max-aspect-ratio:1/1){
+  .hero .bg{background-size:100% auto;background-position:center top}
+  .hero .bg video{bottom:auto;height:56.25vw;-webkit-mask-image:linear-gradient(180deg,#000 60%,transparent);mask-image:linear-gradient(180deg,#000 60%,transparent)}
+  .hero .bg video.on{opacity:.8}
+  .hero .shade{background:linear-gradient(180deg,rgba(27,45,79,.35) 0%,rgba(36,59,102,.15) 20%,rgba(36,59,102,.85) 45%,rgba(36,59,102,.97) 100%)}
+}
+@media (min-width:960px){.vband{padding:84px 0 60px}}
+
+/* ---------- первый экран ---------- */
+.hero{padding:30px 0 12px}
+.hero-grid{display:block}
+.kicker{font:600 13px/1.3 var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 14px}
+h1{font-size:clamp(40px,12vw,84px);line-height:.98;letter-spacing:.005em;margin-bottom:14px}
+h1 .hl{display:inline-block;white-space:nowrap;background:var(--gold);color:var(--blue);padding:.04em .16em .02em;border-radius:14px;margin-top:6px}
+.sub{font-size:clamp(18px,4.6vw,24px);line-height:1.35;color:var(--mut);margin:16px 0 14px;max-width:24em}
+.hero .lead{font-size:17px;margin-bottom:24px}
+.cta-row .btn{display:block;margin:0 0 10px 0}
+.pricecard{background:var(--blue-d);border:1.5px solid var(--gold);border-radius:22px;padding:22px 20px 20px;margin-top:26px}
+.pricecard .p{font:700 56px/1 var(--head);color:var(--gold);margin:0}
+.pricecard .p small{display:block;font:500 14px/1.35 var(--body);color:var(--mut);margin-top:6px}
+.mini{list-style:none;padding:0;margin:16px 0 18px}
+.mini li{padding:9px 0 9px 28px;border-top:1px solid var(--line);position:relative;font-size:15px}
+.mini li:last-child{border-bottom:1px solid var(--line)}
+.mini li:before{content:"";position:absolute;left:4px;top:15px;width:11px;height:6px;border-left:2.5px solid var(--gold);border-bottom:2.5px solid var(--gold);transform:rotate(-45deg)}
+
+/* ---------- карточки ---------- */
+.grid{display:grid;grid-template-columns:1fr;grid-gap:12px;gap:12px;margin:22px 0 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px 20px 18px}
+.card b{display:block;font-size:18px;line-height:1.3;margin:0 0 8px}
+.card p{margin:0;color:var(--mut);font-size:16px}
+.card.gold{border-left:4px solid var(--gold)}
+.card p.big{font:700 40px/1 var(--head);color:var(--gold);margin:0 0 10px;white-space:nowrap}
+.card p.big span{font:600 15px/1 var(--body);color:var(--mut);margin-right:6px;letter-spacing:0}
+
+.costbox{margin:22px 0 0;max-width:860px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:6px 20px}
+.cgrp{padding:16px 0}
+.cgrp + .cgrp{border-top:1px solid var(--line)}
+.crow{display:-webkit-flex;display:flex;-webkit-align-items:baseline;align-items:baseline;-webkit-justify-content:space-between;justify-content:space-between;grid-gap:14px;gap:14px;padding:3px 0}
+.crow .cn{font-size:17px;font-weight:600}
+.crow .cp{font-size:16px;color:var(--mut);text-align:right}
+.crow .cp.pick{font-size:14px}
+.crow.nested{padding-left:14px}
+.crow.nested .cn{font-weight:500;font-size:16px}
+.costbox .or{padding:2px 0 2px 14px;font-size:13px;color:var(--gold)}
+.cgrp p.cd{margin:8px 0 0;font-size:15px;color:var(--mut)}
+.sec.alt .costbox{background:rgba(255,255,255,.06)}
+.cost{grid-template-columns:1fr;max-width:860px}
+.card p.pick{color:var(--gold);font-weight:600;font-size:14px;margin:0 0 6px}
+.opts{margin:0 0 12px}
+.opt{display:-webkit-flex;display:flex;-webkit-align-items:baseline;align-items:baseline;-webkit-justify-content:space-between;justify-content:space-between;border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:rgba(255,255,255,.05)}
+.opt .ol{font:700 22px/1 var(--head);text-transform:uppercase;letter-spacing:.03em}
+.card .opt p.big{margin:0;font-size:30px}
+.opts .or{text-align:center;font:600 13px/1 var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);padding:7px 0}
+.card b + p.big{margin-top:2px}
+.sec.alt .card{background:rgba(255,255,255,.06)}
+.after{margin-top:22px;max-width:42em}
+
+/* ---------- программа ---------- */
+.les{display:grid;grid-template-columns:1fr;grid-gap:10px;gap:10px;margin:22px 0 0;align-items:start}
+details{background:var(--card);border:1px solid var(--line);border-radius:16px}
+details[open]{border-color:rgba(244,208,120,.55)}
+summary{list-style:none;cursor:pointer;padding:16px 46px 16px 16px;position:relative;display:-webkit-flex;display:flex;-webkit-align-items:flex-start;align-items:flex-start}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"+";position:absolute;right:16px;top:50%;margin-top:-14px;font:600 26px/28px var(--head);color:var(--gold)}
+details[open] > summary:after{content:"\2212"}
+.n{font:700 30px/1 var(--head);color:var(--gold);min-width:46px}
+.t{font-size:17px;font-weight:600;line-height:1.3;padding-top:2px}
+.dbody{padding:0 16px 16px 62px;color:var(--mut);font-size:15.5px}
+.dbody p{margin:0 0 8px}
+.dbody p:last-child{margin:0}
+.dbody strong{color:var(--cream);font-weight:600}
+.faq details{margin:0 0 10px}
+.faq summary{padding-left:18px}
+.faq .t{padding-top:0}
+.faq .dbody{padding:0 18px 18px 18px;font-size:16px}
+.faq{max-width:860px;margin-top:22px}
+
+.note{background:var(--cream);color:var(--blue-dd);border-radius:18px;padding:20px;margin:26px 0 0}
+.note b{display:block;font:700 20px/1.1 var(--head);text-transform:uppercase;margin:0 0 10px}
+.note p{margin:0 0 10px}
+.note p:last-child{margin:0}
+
+/* ---------- автор ---------- */
+.who{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;max-width:780px;margin-top:22px}
+.who .nm{font:700 30px/1.05 var(--head);text-transform:uppercase;margin:0}
+.who .rl{color:var(--gold);margin:6px 0 16px;font-weight:600}
+.who.hasph{display:grid;grid-template-columns:1fr;grid-gap:18px;gap:18px}
+.who .ph{width:132px;height:132px;object-fit:cover;border-radius:50%;border:2px solid var(--gold);display:block}
+.soft{margin-top:26px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;max-width:780px}
+.soft b{display:block;font:700 26px/1.1 var(--head);text-transform:uppercase;margin:0 0 8px}
+.soft p{color:var(--mut);margin:0 0 16px}
+.soft .cta-row .btn{margin:0 0 10px 0}
+@media (min-width:640px){.who.hasph{grid-template-columns:168px 1fr;grid-gap:28px;gap:28px}.who .ph{width:168px;height:168px}.soft .cta-row .btn{display:inline-block;margin:0 10px 0 0}}
+.who .pf small{display:block;margin-top:8px;font-size:12px;color:var(--mut);max-width:168px}
+.pills{margin-top:8px}
+.pills a{display:inline-block;text-decoration:none;color:var(--cream);border:1px solid var(--gold);border-radius:999px;padding:10px 16px;font-size:14px;font-weight:600;margin:0 8px 8px 0}
+.quote{border-left:4px solid var(--gold);padding:2px 0 2px 14px;margin:0 0 12px;max-width:780px}
+.quote small{color:var(--mut)}
+
+/* ---------- оплата ---------- */
+.offer{background:var(--blue-d);border:1.5px solid var(--gold);border-radius:24px;padding:24px 20px 22px;margin-top:8px;scroll-margin-top:60px}
+.sec.alt .offer{background:var(--blue-dd)}
+.offer .p{font:700 62px/1 var(--head);color:var(--gold);margin:0}
+.offer .p small{display:block;font:500 14px/1.35 var(--body);color:var(--mut);margin-top:6px}
+.facts{list-style:none;padding:0;margin:18px 0}
+.facts li{padding:10px 0;border-top:1px solid var(--line);display:-webkit-flex;display:flex}
+.facts li:last-child{border-bottom:1px solid var(--line)}
+.facts i{font-style:normal;color:var(--mut);min-width:84px;margin-right:10px}
+.chk{display:-webkit-flex;display:flex;-webkit-align-items:flex-start;align-items:flex-start;padding:13px;border:1.5px solid var(--line);border-radius:14px;margin:0 0 8px;cursor:pointer;font-size:15px;line-height:1.45;transition:border-color .2s,background .2s}
+.chk input{width:22px;height:22px;margin:1px 12px 0 0;-webkit-flex:none;flex:none;accent-color:#f4d078}
+.chk.err{border-color:#ffb4a8;background:rgba(255,180,168,.12)}
+.chk.ok{border-color:rgba(244,208,120,.65)}
+.hint{min-height:22px;font-size:14px;margin:10px 2px 0;color:var(--mut)}
+.hint.err{color:#ffb4a8}
+.shake{animation:sh .35s}
+@keyframes sh{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.fine{font-size:13px;color:var(--mut);margin:14px 0 0;max-width:46em}
+
+/* ---------- подвал ---------- */
+footer{margin-top:0;padding:30px 0 14px;border-top:1px solid var(--line);font-size:13px;color:var(--mut);background:var(--blue)}
+footer a{color:var(--mut)}
+footer p{margin:0 0 8px}
+
+/* ---------- плавающая кнопка на телефонах ---------- */
+.fab{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));-webkit-transform:translate(-50%,130px);transform:translate(-50%,130px);
+  z-index:35;background:var(--gold);color:var(--blue-dd);text-decoration:none;border-radius:999px;padding:15px 26px;
+  font:700 17px/1 var(--head);text-transform:uppercase;letter-spacing:.05em;box-shadow:0 8px 24px rgba(0,0,0,.35);
+  transition:transform .3s;white-space:nowrap}
+.fab.show{-webkit-transform:translate(-50%,0);transform:translate(-50%,0)}
+
+/* ---------- планшет ---------- */
+@media (min-width:640px){
+  :root{--pad:28px}
+  .cta-row .btn{display:inline-block;margin:0 10px 10px 0}
+  .grid.c2,.grid.c3{grid-template-columns:1fr 1fr}
+  .grid.t3{grid-template-columns:1fr 1fr 1fr}
+
+  .les{grid-template-columns:1fr 1fr;grid-gap:12px;gap:12px}
+  .tabs a{font-size:12px}
+}
+
+/* ---------- компьютер ---------- */
+@media (min-width:960px){
+  :root{--pad:36px}
+  body{font-size:17px;padding-bottom:0}
+  .sec{padding:84px 0 12px}
+  .sec.alt{padding-bottom:84px;margin-top:72px}
+  .brand{display:block}
+  .tabs{-webkit-flex:none;flex:none}
+  .tabs a{-webkit-flex:none;flex:none;padding:21px 16px 18px;font-size:14px;margin:0 4px}
+  .top .top-btn{display:inline-block;margin-left:auto;padding:12px 22px;min-height:0;font-size:15px}
+  .hero{padding:78px 0 34px}
+  .hero-grid{display:grid;grid-template-columns:1.3fr .8fr;grid-gap:56px;gap:56px;-webkit-align-items:center;align-items:center}
+  .hero .lead{font-size:19px}
+  .pricecard{margin-top:0;padding:30px 28px 26px}
+  .lead{font-size:20px}
+  .grid.c3{grid-template-columns:1fr 1fr 1fr;grid-gap:16px;gap:16px}
+  .grid.c2{grid-gap:16px;gap:16px}
+  .card{padding:26px 24px 22px}
+  .les{grid-gap:14px;gap:14px}
+  .offer{display:grid;grid-template-columns:1fr 1fr;grid-gap:44px;gap:44px;padding:40px 40px 34px}
+  .offer .p{font-size:76px}
+  .fab{display:none}
+  .who{padding:32px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.fab,.chk,.btn,.tabs a{transition:none}.shake{animation:none}}
+
+/* читаемость: светлее основной текст и подписи, заметные вторичные кнопки */
+.card p,.dbody p,.note p,.who p,.lead,.soft p,.facts span{color:rgba(246,238,223,.93)}
+.card p{font-size:17px}
+.dbody p,.note p{font-size:16.5px}
+.fine{font-size:14px;color:rgba(246,238,223,.85)}
+.who .pf small{font-size:13px;color:rgba(246,238,223,.85)}
+.soft .btn.ghost{background:rgba(244,208,120,.16);border:1.5px solid var(--gold);color:#fff;font-weight:700}
+.soft .btn.ghost:hover{background:rgba(244,208,120,.3)}
+.pills a{background:rgba(244,208,120,.14);color:#fff}
+.card b{font-size:20px}
+.t{font-size:19px}
+.note p{color:var(--blue-dd);font-size:16.5px}
+.note b{font-size:22px}
+.faq .t{font-size:19px}
+.ctaa{margin-top:28px}
+.softwrap{padding:8px 0 40px}
+.softwrap .soft{margin-top:24px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top">Свой первый <b>фильм на ИИ</b></a>
+    <nav class="tabs" id="nav" aria-label="Разделы страницы"></nav>
+    <a class="btn top-btn" id="topbtn" href="#buy"></a>
+  </div>
+</header>
+<main id="top"></main>
+<a class="fab" id="fab" href="#buy"></a>
+<noscript><div class="wrap"><p>Для работы страницы включите JavaScript.</p></div></noscript>
+
+<script>
+/* ============================================================
+   МЕНЯЕТЕ ТОЛЬКО ЭТОТ БЛОК: тексты, цена и ссылки.
+   Остальное ниже трогать не нужно.
+   ============================================================ */
+window.KK_DATA = {
+  /* видео на подложке: начало (hero.video), середина и конец */
+  bgMid: { video: "video/mid.mp4", videoMobile: "video/mid-m.mp4", poster: "video/mid.jpg" },
+  bgEnd: { video: "video/end.mp4", videoMobile: "video/end-m.mp4", poster: "video/end.jpg" },
+  payUrl: "https://payform.ru/4qcV8r4/",
+  price: "4 990 ₽",
+  email: "olgatilova@mail.ru",
+  docs: { offer: "oferta.pdf", policy: "politika.pdf", consent: "soglasie.pdf" },
+
+  hero: {
+    video: "video/hero.mp4", videoMobile: "", poster: "video/hero.jpg",
+    kicker: "Видеокурс · 8 уроков + гайды, промпты",
+    titleStart: "Свой первый",
+    titleHl: "фильм на ИИ",
+    subtitle: "Сделайте свой первый мини-фильм без камеры, актёров и бюджета",
+    lead: "Мини-фильм примерно на 1,5-2 минуты из нейросетей: от идеи до монтажа, без съёмочной группы. Подойдёт и тем, кто никогда не работал с нейросетями. Все уроки доступны сразу, проходите их в своём темпе.",
+    cta: "Купить видеокурс",
+    cta2: "Смотреть программу",
+    card: [
+      "Для тех, кто никогда не работал с нейросетями",
+      "8 видеоуроков и вводный урок",
+      "Гайды, промпты, шаблоны, инструкции",
+      "Доступ на 6 месяцев",
+      "Ссылка на курс приходит сразу после оплаты"
+    ]
+  },
+
+  problem: {
+    title: "Узнаёте себя?",
+    cards: [
+      { t: "История есть, бюджета на съёмки нет",
+        d: "Хочется рассказать о своём деле или подарить близкому человеку мини-фильм о нём. Реальная съёмка с режиссёром, актёрами и оператором стоит сотни тысяч рублей, и идея остаётся идеей." },
+      { t: "Нейросети пробовали, получается «по-нейросетевому»",
+        d: "Кадры пластиковые, цвета пережжены, герой в каждой сцене немного другой. На кино это не похоже, и непонятно, с какого места чинить." },
+      { t: "Профессию вытесняют нейросети",
+        d: "Работа, на которую вы рассчитывали, сокращается, а график «пять через два» никуда не делся. Нужен новый навык, но не хочется многомесячных курсов." }
+    ],
+    forTitle: "Кому подойдёт курс",
+    forCards: [
+      { t: "Владельцам малого бизнеса и брендов", d: "У вас есть история бренда или продукта, а бюджета на продакшн нет." },
+      { t: "Начинающим AI-креаторам", d: "Получите последовательный маршрут вместо разрозненных промптов из соцсетей." },
+      { t: "Фотографам и видеографам", d: "Добавите востребованный навык. Свадебным и event-видеографам он подходит для роликов love story и юбилеев." },
+      { t: "SMM-специалистам", d: "Сможете предлагать клиентам видео-истории, а не только посты." },
+      { t: "Музыкантам и артистам", d: "Можно снять клип на свою песню без бюджета на видеопроизводство." },
+      { t: "Тем, кого вытесняют нейросети", d: "Новый навык и работа из дома без привязки к расписанию работодателя." }
+    ]
+  },
+
+  result: {
+    title: "Пройдите курс по шагам, и к его концу у вас будет собственный мини-⁠фильм",
+    items: [
+      ["Выполняете задания по порядку и получаете готовый ролик", "Вы выполняете задания из уроков по порядку и на каждом этапе делаете свою часть работы. В итоге получается ролик примерно на 1,5-2 минуты со сценарием, героями, единым стилем, закадровым голосом и музыкой. Весь путь от идеи до монтажа разобран по урокам и шаблонам."],
+      ["Кроме ролика вы получаете навык создавать такие видео", "Кроме самого ролика вы получите главное: навык создавать такие видео. Он останется с вами после курса. Если изменить стилистику и схему сборки, по тому же принципу можно делать мультфильмы, рекламные ролики и другие видео кинематографичного качества. В курсе всё разбирается на примере мини-фильма, а дальше вы переносите этот подход на свои задачи."],
+      ["Этот навык может стать профессией", "Курс учит создавать мини-фильмы. Если вам это подойдёт, навык может стать профессией и источником дохода: на AI-видео можно делать ролики для брендов, блогеров и рекламы. Подойдёт ли вам эта работа и станет ли она вашим занятием, зависит от вас, гарантировать это нельзя."]
+    ],
+    getTitle: "Что вы получите",
+    get: [
+      { t: "Шаблоны промптов", d: "Для сценария, референсов, раскадровки, видео, озвучки и музыки: подставляете свою историю." },
+      { t: "Единый вид кадров", d: "Приёмы, чтобы свет, цвет и лицо героя не менялись от кадра к кадру." },
+      { t: "Права на ролик", d: "По оферте ролики, которые вы создали по курсу, принадлежат вам." },
+      { t: "Консультант на каждом шаге", d: "В курсе показано, как задать нейросети роль режиссёра или оператора и получить содержательный совет." }
+    ],
+    meansTitle: "Зачем это вам",
+    means: [
+      { t: "Рассказать свою историю", d: "Мини-фильм о вашем деле или подарок близкому человеку. Его можно выложить в соцсети или показать клиентам." },
+      { t: "Получить навык, который можно применять", d: "Ролики для своего бренда или для заказчиков: реклама, клипы, истории для свадеб и юбилеев." },
+      { t: "Попробовать новое направление", d: "Курс стоит немного, и вы можете за небольшие деньги понять, подходит ли вам профессия AI-креатора, прежде чем вкладываться в дорогое обучение." },
+      { t: "Работать на своих условиях", d: "AI-видео делается из дома, без студии и без команды." }
+    ]
+  },
+
+  value: {
+    title: "Программа курса",
+    lead: "Каждый урок заканчивается результатом, который вы используете в следующем. К урокам прилагаются гайды, промпты, шаблоны и инструкции.",
+    lessons: [
+      ["Идея и сценарий", "Собираете историю по промпту для агента-сценариста.", "готовая история на основе одной из пяти структур, проверенная на связность сцен."],
+      ["Литературный и режиссёрский сценарий", "Превращаете историю в сценарий и делите его на кадры.", "сценарий по кадрам с крупностью плана и ракурсом, черновик закадрового текста."],
+      ["Стилистика", "Выбираете стиль на основе существующих фильмов.", "мудборд и готовый блок «Style», который вставляется в каждый промпт."],
+      ["Референсы персонажей, локаций, предметов", "Создаёте персонажей, локации и предметы по промптам.", "карты героев, локаций и ключевых предметов, на которые опирается вся генерация."],
+      ["Раскадровка", "Нейросеть делает раскадровку по вашему промпту.", "сториборды по каждому куску сценария, как комикс по вашей истории."],
+      ["Оживление кадров", "Генерируете видео, неудачные кадры пересоздаёте отдельно.", "готовые видео-отрезки, из которых собирается мини-фильм."],
+      ["Озвучка закадрового текста", "Делаете голос для закадрового текста и звуки для атмосферы.", "аудиозапись закадрового голоса под ваш ролик."],
+      ["Сборка ролика и музыка", "Монтируете ролик с голосом и музыкой на всё видео.", "готовый мини-фильм с музыкальной темой нужной длины."]
+    ],
+    costTitle: "Честно о вложениях",
+    costLead: "Кроме самого курса понадобятся два сервиса: Claude и один тариф syntx.ai на ваш выбор. Ориентировочно:",
+    cost: [
+      { t: "Claude", big: "около $20", d: "в месяц, минимальная платная подписка. Это ваш консультант и помощник на каждом этапе." },
+      { t: "syntx.ai", pick: "Нужен один из двух тарифов, на выбор", opts: [["VIP", "около 3 990 ₽"], ["Elite", "около 5 990 ₽"]],
+        d: "Агрегатор нейросетей с доступом к нескольким инструментам сразу. Генерации первого ролика примерно на 6 000 ₽ входят в подписку, доплачивать за них не нужно." }
+    ],
+    compare: {
+      title: "Для сравнения",
+      paras: [
+        "Курсы по созданию AI-фильмов с кураторами и обратной связью у других авторов и школ стоят от 60 000 до 100 000 ₽ и выше. Здесь формат другой: самостоятельное обучение без куратора и проверки заданий, поэтому и цена в разы ниже.",
+        "Диапазон ориентировочный, по состоянию на ноябрь 2026."
+      ]
+    },
+    costNote: "Цены ориентировочные. Тарифы, условия оплаты и доступность сервисов в вашем регионе определяют их владельцы, и это может меняться. В стоимость курса подписки не входят.",
+    format: {
+      title: "Формат обучения",
+      paras: [
+        "Самостоятельное обучение по видеоурокам. Поддержка и проверка заданий не предусмотрены, вся информация разобрана в уроках и инструкциях.",
+        "Вместо куратора у вас нейросеть. Вы общаетесь с ней на протяжении всего курса и задаёте ей вопросы, а в уроках показано, как это делать. Нейросеть отвечает в любое время суток, и вам не нужно ждать куратора."
+      ]
+    }
+  },
+
+  author: {
+    title: "Об авторе",
+    name: "Ольга Гатилова",
+    role: "AI-креатор",
+    /* Фото автора: положите файл рядом с этим файлом и впишите имя, например "olga.jpg". Пока пусто, фото не показывается. */
+    photo: "video/olga.jpg",
+    paras: [
+      "Я создаю видео с помощью нейросетей. Больше всего люблю кинематографичные мини-фильмы для соцсетей, но делаю и рекламные ролики, и сниппеты.",
+      "Два года назад я попробовала нейросети ради интереса. Со временем увлечение стало моей основной профессией, и сегодня я на ней зарабатываю.",
+      "Сейчас работаю с брендами: создаю для них рекламные ролики и видео для сайтов. Музыкантам делаю сниппеты к новым трекам. Для ютуберов, которые зарабатывают на американском YouTube, делаю видеосериалы. Ещё делаю видео для свадеб: ролики в формате love story.",
+      "Нейросети быстро меняют рынок. Многие профессии уже сокращаются, и я думаю, что дальше этот процесс только ускорится. Профессия AI-креатора совсем молодая, и войти в неё сейчас ещё не поздно: у тех, кто осваивает её на старте, появляется преимущество перед теми, кто придёт позже.",
+      "Решение за вами: если чувствуете, что вам нужно новое дело, с этого курса можно начать."
+    ],
+    links: [
+      { t: "Мои ролики в Instagram", u: "https://www.instagram.com/olgagatilova_ai/" },
+      { t: "Telegram-канал «Творим что хотим»", u: "https://t.me/+wt1exAqkgLhjZDEy" }
+    ],
+    /* Сюда можно добавить свои ролики: { t: "Название", u: "https://ссылка" }. Пока пусто, блок скрыт. */
+    works: [],
+    /* Сюда можно добавить настоящие отзывы: { text: "Текст отзыва", name: "Имя" }. Пока пусто, блок скрыт. */
+    reviews: []
+  },
+
+  faq: {
+    title: "Остались вопросы?",
+    items: [
+      ["Я новичок в нейросетях. Получится?",
+        ["Курс идёт по шагам: каждый урок заканчивается готовым материалом для вашего мини-фильма, к урокам прилагаются шаблоны промптов и инструкции. Если что-то непонятно, можно спросить нейросеть: в курсе показано, как задать ей роль режиссёра или оператора.",
+         "Результат зависит от ваших действий и выбранных сервисов, поэтому гарантировать его нельзя."]],
+      ["Поддержки и проверки заданий нет. Как не запутаться?",
+        ["Это самостоятельное обучение: куратора и проверки работ нет. Вся информация разобрана в видеоуроках, гайдах и инструкциях, и к любому уроку можно вернуться в течение 6 месяцев. На вопросы по ходу работы отвечает нейросеть, с которой вы общаетесь весь курс.",
+         "В курсе вы учитесь работать с нейросетью как с наставником: задавать ей вопросы по сценарию, кадрам, озвучке и монтажу. Она отвечает в любое время суток, в том числе ночью и в выходные: села за работу, возникла задача, и ответ приходит сразу. Кураторы в школах, как правило, отвечают в рабочие часы, и пока вы ждёте ответа, работа стоит. Нейросеть это куратор, который не спит и всегда рядом.",
+         "Если вам важен наставник, который проверяет задания, этот формат не подойдёт, и лучше знать об этом до покупки."]],
+      ["Зачем этот курс, если есть большие дорогие школы?",
+        ["Курс стоит в разы меньше и позволяет попробовать профессию AI-креатора изнутри: пройти путь от идеи до готового мини-фильма и понять, ваше это дело или нет.",
+         "Если ваше, дальше можно выбрать более развёрнутое обучение в большой школе, с куратором и обратной связью. Возможно, вы поймёте, что оно вам уже не нужно: тот, кто научился работать с нейросетью как с наставником, получает помощь в любой момент. Если дело не ваше, вы узнаете это за небольшие деньги. Выяснить такое после оплаты курса в 60 000 ₽ и больше гораздо обиднее."]],
+      ["Сколько это будет стоить на самом деле?",
+        ["Стоимость самого курса указана в блоке оплаты внизу страницы. Дополнительно нужны два сервиса: Claude (около $20 в месяц) и syntx.ai, где вы выбираете один тариф: VIP около 3 990 ₽ или Elite около 5 990 ₽. Генерации первого ролика примерно на 6 000 ₽ входят в подписку syntx.ai.",
+         "Цены задают сами сервисы, они могут измениться."]],
+      ["Как оплатить сервисы из России?",
+        ["syntx.ai оплачивается российскими картами. Для Claude в курсе есть видео о том, как его установить и оплатить.",
+         "Условия оплаты и доступность сервисов в вашем регионе определяют их владельцы, и это может меняться."]],
+      ["Будет ли заметно, что ролик сделан нейросетью?",
+        ["Уроки 3 и 4 нужны, чтобы убрать «нейросетевую» пластику и пережжённые цвета: единый стиль по референсам настоящих фильмов и карты героев и локаций, чтобы лицо и обстановка не менялись от кадра к кадру.",
+         "Итог зависит от вашей истории, выбранных сервисов и их возможностей."]],
+      ["Нужно ли уметь снимать и монтировать?",
+        ["Камера в работе не участвует: кадры и видео создают нейросети. Ролик собирается в CapCut, к уроку о сборке прилагается видео-инструкция."]],
+      ["Сколько времени нужно на курс?",
+        ["Потоков, дат старта и расписания нет. Все уроки доступны сразу после открытия доступа, вы идёте в своём темпе, а доступ действует 6 месяцев."]],
+      ["Что нужно из техники?",
+        ["Компьютер, ноутбук или смартфон со стабильным интернетом и доступ к нейросетевым сервисам, которые разбираются в уроках."]],
+      ["Как я получу курс после оплаты?",
+        ["Оплата проходит на защищённой странице Продамуса. Чек приходит на вашу почту. Если чека нет, проверьте папку «Спам».",
+         "Ссылка на курс приходит на почту, указанную при оплате, сразу, обычно в течение пары минут. Обучение проходит в закрытом Telegram-канале, поэтому доступ по ссылке открывается не мгновенно: администратор проверяет, что оплата прошла, и только после этого одобряет доступ. Обычно это занимает от нескольких минут до пары часов, ночью может уйти до 8 часов. Максимальный срок 24 часа.",
+         "Если письма со ссылкой нет, проверьте папку «Спам» и напишите на {email}."]],
+      ["Можно ли вернуть деньги?",
+        ["Да, 100% суммы, пока доступ не открыт: напишите на {email} с почты, указанной при оплате, и деньги вернутся тем же способом в течение 10 дней. Доступ в закрытый канал открывает администратор, обычно в течение нескольких минут, и после этого возврат не предусмотрен, потому что материалы нельзя вернуть после просмотра. Права, которые даёт закон, сохраняются."]],
+      ["Кому принадлежит готовый ролик?",
+        ["Вам. Ролики, которые вы создали по курсу, можно публиковать и использовать в своей работе. Материалы курса (уроки, промпты, шаблоны) передавать и перепродавать нельзя. Лицензии на музыку и условия сервисов проверяйте перед коммерческим использованием."]],
+      ["Можно ли на этом заработать?",
+        ["Курс про создание мини-фильмов, а не про заработок. Если это занятие вам подойдёт, оно может стать профессией и реальным доходом. Уроков о поиске клиентов в программе нет, и результат гарантировать нельзя: подойдёт ли вам эта работа и станет ли она вашим делом, покажет практика. Навык применяют для роликов брендам, свадеб, юбилеев и музыкальных клипов."]],
+      ["Выдаётся ли диплом?",
+        ["Нет. Курс является информационно-консультационной услугой: документ об образовании, диплом и сертификат не выдаются."]]
+    ]
+  },
+
+  offer: {
+    title: "Начать можно сегодня",
+    lead: "Один тариф, без доплат внутри курса. Ссылка на курс приходит сразу после оплаты, а доступ в закрытый канал администратор открывает обычно в течение нескольких минут.",
+    facts: [
+      ["Доступ", "6 месяцев с момента выдачи"],
+      ["Состав", "8 уроков, вводный урок, гайды, промпты, шаблоны, инструкции"],
+      ["Возврат", "100% суммы, пока доступ не открыт"]
+    ],
+    why: "Шести месяцев хватает, чтобы собрать первый ролик без спешки. Выберите историю, пока она ещё свежа в голове.",
+    buy: "Купить видеокурс",
+    fab: "Купить видеокурс",
+    fine: [
+      "После открытия доступа возврат не предусмотрен. Результат зависит от ваших действий и выбранных сервисов и не гарантируется. Документ об образовании по итогам курса не выдаётся.",
+      "Оплата проходит на защищённой странице платёжного сервиса Продамус. Данные карты мы не получаем."
+    ]
+  },
+
+  seller: "ИП Гатилова Ольга Юрьевна · ИНН 772440706027 · ОГРНИП 323774600081760"
+};
+
+/* ============================================================
+   Дальше код страницы
+   ============================================================ */
+(function () {
+  var D = window.KK_DATA;
+  var tg = (window.Telegram && window.Telegram.WebApp) || null;
+  var inTg = !!(tg && tg.initData);
+
+  /* неразрывные пробелы в числах и ценах, диапазоны не рвутся по дефису */
+  function fx(t) {
+    return String(t)
+      .replace(/(\d) (?=\d{3}\b)/g, "$1 ")
+      .replace(/(\d) (?=₽)/g, "$1 ")
+      .replace(/(около|от|до) (?=[\d$])/g, "$1 ")
+      .replace(/(\d)-(?=\d)/g, "$1⁠-⁠");
+  }
+  function h(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = fx(text);
+    return e;
+  }
+  function add(parent) {
+    for (var i = 1; i < arguments.length; i++) { if (arguments[i]) parent.appendChild(arguments[i]); }
+    return parent;
+  }
+  function absUrl(u) { try { return new URL(u, location.href).href; } catch (e) { return u; } }
+  function link(text, url, cls) {
+    var a = h("a", cls || "", text);
+    a.href = url; a.target = "_blank"; a.rel = "noopener";
+    a.setAttribute("data-ext", "1");
+    return a;
+  }
+  function openExternal(url) {
+    var u = absUrl(url);
+    if (inTg && tg.openLink) { try { tg.openLink(u); return; } catch (e) {} }
+    window.location.href = u;
+  }
+  /* текст с адресом почты внутри абзаца */
+  function para(text) {
+    var p = h("p");
+    var parts = String(text).split("{email}");
+    for (var i = 0; i < parts.length; i++) {
+      if (i > 0) { var a = h("a", "", D.email); a.href = "mailto:" + D.email; p.appendChild(a); }
+      p.appendChild(document.createTextNode(fx(parts[i])));
+    }
+    return p;
+  }
+
+  if (inTg) {
+    try { tg.ready(); } catch (e) {}
+    try { tg.expand(); } catch (e) {}
+    try { tg.setHeaderColor("#243b66"); } catch (e) {}
+    try { tg.setBackgroundColor("#2e4a7c"); } catch (e) {}
+    try { if (tg.disableVerticalSwipes) tg.disableVerticalSwipes(); } catch (e) {}
+  }
+
+  var app = document.getElementById("top");
+  var NAV = ["Проблема", "Результат", "Ценность", "Автор", "Сейчас"];
+  var nav = document.getElementById("nav");
+  NAV.forEach(function (name, i) {
+    var a = h("a", i === 0 ? "on" : "", name);
+    a.href = "#s" + (i + 1);
+    nav.appendChild(a);
+  });
+  var tb = document.getElementById("topbtn"); tb.textContent = D.offer.buy;
+
+  function wrap(parent) { var w = h("div", "wrap"); parent.appendChild(w); return w; }
+  function section(n, label, title, alt) {
+    var s = h("section", "sec" + (alt ? " alt" : "")); s.id = "s" + n;
+    var w = wrap(s);
+    add(w, h("div", "lab", label), h("h2", "", title));
+    app.appendChild(s);
+    return w;
+  }
+  function cards(parent, list, cols, cls) {
+    var box = h("div", "grid " + (cols || "c3"));
+    list.forEach(function (c) {
+      add(box, add(h("div", "card " + (cls || "")), h("b", "", c.t), h("p", "", c.d)));
+    });
+    parent.appendChild(box);
+  }
+  function note(parent, d) {
+    var box = h("div", "note"); box.appendChild(h("b", "", d.title));
+    d.paras.forEach(function (p) { box.appendChild(h("p", "", p)); });
+    parent.appendChild(box);
+  }
+
+  /* ---------- видео на подложке: начало, середина, конец ---------- */
+  var vids = [];
+  var save = navigator.connection && navigator.connection.saveData;
+  function attachVideo(bg, d, eager) {
+    var src = (window.innerWidth < 760 && d.videoMobile) ? d.videoMobile : d.video;
+    if (d.poster) bg.style.backgroundImage = "url(" + d.poster + ")";
+    if (!src || save) return;
+    var v = null, rec = { vis: eager ? true : false };
+    function mk() {
+      if (v) return;
+      v = document.createElement("video");
+      v.muted = true; v.defaultMuted = true; v.loop = true; v.autoplay = true; v.playsInline = true;
+      v.setAttribute("muted", ""); v.setAttribute("playsinline", ""); v.setAttribute("webkit-playsinline", "");
+      v.setAttribute("aria-hidden", "true"); v.tabIndex = -1; v.preload = "auto";
+      if (d.poster) v.poster = d.poster;
+      v.addEventListener("playing", function () { v.classList.add("on"); bg.className = bg.className.replace(" kb", ""); });
+      v.addEventListener("error", function () { if (v.parentNode) v.parentNode.removeChild(v); v = null; });
+      var u = src;
+      if (src.indexOf("data:") === 0 && window.Blob && window.atob) {
+        try { var bin = atob(src.split(",")[1]), a = new Uint8Array(bin.length); for (var k = 0; k < bin.length; k++) a[k] = bin.charCodeAt(k); u = URL.createObjectURL(new Blob([a], { type: "video/mp4" })); } catch (e) {}
+      }
+      v.src = u;
+      bg.insertBefore(v, bg.firstChild);
+    }
+    var kick = function () { vids.forEach(function (x) { if (x.vis !== false) x.on(true); }); };
+    if (!attachVideo.k) { attachVideo.k = 1; ["touchstart", "click", "scroll"].forEach(function (ev) { window.addEventListener(ev, kick, { passive: true, once: true }); }); }
+    rec.on = function (on) {
+      if (!v) { if (on) mk(); else return; }
+      if (!v) return;
+      if (on) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else { v.pause(); }
+    };
+    setTimeout(function () { if (rec.vis !== false && (!v || !v.classList.contains("on"))) bg.className += " kb"; }, 3500);
+
+    vids.push(rec);
+    if (eager) { rec.on(true); return; }
+    if (!window.IntersectionObserver) { rec.vis = true; rec.on(true); return; }
+    new IntersectionObserver(function (ents) { rec.vis = ents[0].isIntersecting; rec.on(rec.vis); }, { rootMargin: "400px 0px", threshold: 0.01 }).observe(bg.parentNode);
+  }
+  function band(w, n, d) {
+    var sec = w.parentNode, bandEl = h("div", "vband");
+    var bg = h("div", "bg"); add(bg, h("div", "shade"));
+    bandEl.appendChild(bg);
+    var w2 = h("div", "wrap"); bandEl.appendChild(w2);
+    for (var i = 0; i < n; i++) w2.appendChild(w.firstChild);
+    sec.insertBefore(bandEl, w);
+    sec.className += " hasband";
+    attachVideo(bg, d, false);
+  }
+  document.addEventListener("visibilitychange", function () { vids.forEach(function (x) { if (x.vis !== false) x.on(!document.hidden); }); });
+
+  /* ---------- первый экран ---------- */
+  (function () {
+    var d = D.hero, s = h("header", "hero");
+    var hbg = h("div", "bg"); add(hbg, h("div", "shade")); s.appendChild(hbg);
+    var w = wrap(s), g = h("div", "hero-grid");
+    var left = h("div"), t = h("h1");
+    t.appendChild(document.createTextNode(d.titleStart + " "));
+    t.appendChild(h("span", "hl", d.titleHl));
+    var cta = h("div", "cta-row");
+    var b1 = h("a", "btn", d.cta); b1.href = "#buy";
+    var b2 = h("a", "btn ghost", d.cta2); b2.href = "#s3";
+    add(cta, b1, b2);
+    add(left, h("p", "kicker", d.kicker), t, h("p", "sub", d.subtitle), h("p", "lead", d.lead), cta);
+
+    var card = h("div", "pricecard");
+    var pr = h("p", "kicker", "Что внутри");
+    var ul = h("ul", "mini");
+    d.card.forEach(function (x) { ul.appendChild(h("li", "", x)); });
+    var b3 = h("a", "btn block", d.cta); b3.href = "#buy";
+    add(card, pr, ul, b3);
+    add(g, left, card); w.appendChild(g);
+    app.appendChild(s);
+    attachVideo(hbg, d, true);
+    if ("IntersectionObserver" in window) new IntersectionObserver(function (ents) { if (vids[0]) { vids[0].vis = ents[0].isIntersecting; vids[0].on(vids[0].vis); } }, { threshold: 0.05 }).observe(s);
+  })();
+
+  /* ---------- 1. Проблема ---------- */
+  (function () {
+    var w = section(1, "01 · Проблема", D.problem.title);
+    cards(w, D.problem.cards, "c3 t3");
+    w.appendChild(h("h3", "", D.problem.forTitle));
+    cards(w, D.problem.forCards, "c3");
+  })();
+
+  /* ---------- 2. Результат и смыслы ---------- */
+  (function () {
+    var w = section(2, "02 · Результат", D.result.title, true);
+    var rb = h("div", "les");
+    D.result.items.forEach(function (it, i) {
+      var det = document.createElement("details");
+      if (i === 0) det.open = true;
+      var sm = document.createElement("summary");
+      add(sm, h("span", "n", "0" + (i + 1)), h("span", "t", it[0]));
+      var body = h("div", "dbody"); body.appendChild(h("p", "", it[1]));
+      add(det, sm, body);
+      rb.appendChild(det);
+    });
+    w.appendChild(rb);
+    w.appendChild(h("h3", "", D.result.getTitle));
+    cards(w, D.result.get, "c2");
+    w.appendChild(h("h3", "", D.result.meansTitle));
+    cards(w, D.result.means, "c2", "gold");
+    band(w, 3, D.bgMid);
+  })();
+
+  /* ---------- 3. Ценность ---------- */
+  (function () {
+    var w = section(3, "03 · Ценность", D.value.title);
+    w.appendChild(h("p", "lead", D.value.lead));
+    var box = h("div", "les");
+    D.value.lessons.forEach(function (l, i) {
+      var det = document.createElement("details");
+      if (i === 0) det.open = true;
+      var sm = document.createElement("summary");
+      add(sm, h("span", "n", String(i + 1).length < 2 ? "0" + (i + 1) : String(i + 1)), h("span", "t", l[0]));
+      var body = h("div", "dbody");
+      var p2 = h("p"); p2.appendChild(h("strong", "", "Результат: ")); p2.appendChild(document.createTextNode(fx(l[2])));
+      add(body, h("p", "", l[1]), p2);
+      add(det, sm, body);
+      box.appendChild(det);
+    });
+    w.appendChild(box);
+
+    note(w, D.value.format);
+  })();
+
+  /* ---------- 4. Доказательства ---------- */
+  (function () {
+    var a = D.author;
+    var w = section(4, "04 · Доказательства", a.title, true);
+    var who = h("div", "who" + (a.photo ? " hasph" : ""));
+    if (a.photo) {
+      var im = h("img", "ph"); im.src = a.photo; im.alt = a.name; im.loading = "lazy";
+      var pf = h("div", "pf"); add(pf, im, h("small", "", "Фото создано нейросетью")); who.appendChild(pf);
+    }
+    var inner = h("div"); who.appendChild(inner);
+    add(inner, h("p", "nm", a.name), h("p", "rl", a.role));
+    a.paras.forEach(function (p) { inner.appendChild(h("p", "", p)); });
+    var pills = h("div", "pills");
+    a.links.forEach(function (l) { pills.appendChild(link(l.t, l.u)); });
+    inner.appendChild(pills);
+    w.appendChild(who);
+    if (a.works && a.works.length) {
+      w.appendChild(h("h3", "", "Работы"));
+      var p2 = h("div", "pills");
+      a.works.forEach(function (x) { p2.appendChild(link(x.t, x.u)); });
+      w.appendChild(p2);
+    }
+    if (a.reviews && a.reviews.length) {
+      w.appendChild(h("h3", "", "Отзывы"));
+      a.reviews.forEach(function (r) {
+        var q = h("div", "quote");
+        add(q, h("p", "", r.text), h("small", "", r.name));
+        w.appendChild(q);
+      });
+    }
+    var ac = h("div", "cta-row ctaa"); var ab = h("a", "btn", "Перейти к оплате"); ab.href = "#buy"; ac.appendChild(ab); w.appendChild(ac);
+    w.appendChild(h("h3", "", D.value.costTitle));
+    w.appendChild(h("p", "lead", D.value.costLead));
+    function priceEl(txt, cls) {
+      var el = h("p", cls), m = /^около\s+(.*)$/.exec(txt);
+      if (m) { el.appendChild(h("span", "", "около")); el.appendChild(document.createTextNode(fx(m[1]))); }
+      else el.appendChild(document.createTextNode(fx(txt)));
+      return el;
+    }
+    var cg = h("div", "costbox");
+    D.value.cost.forEach(function (c) {
+      var g = h("div", "cgrp");
+      var top = h("div", "crow");
+      add(top, h("span", "cn", c.t));
+      if (c.opts) {
+        add(top, h("span", "cp pick", c.pick));
+        g.appendChild(top);
+        c.opts.forEach(function (o, i) {
+          if (i > 0) g.appendChild(h("div", "or", "или"));
+          var row = h("div", "crow nested");
+          add(row, h("span", "cn", o[0]), h("span", "cp", fx(o[1])));
+          g.appendChild(row);
+        });
+      } else {
+        add(top, h("span", "cp", fx(c.big)));
+        g.appendChild(top);
+      }
+      g.appendChild(h("p", "cd", c.d));
+      cg.appendChild(g);
+    });
+    w.appendChild(cg);
+    w.appendChild(h("p", "fine", D.value.costNote));
+    note(w, D.value.compare);
+  })();
+
+  /* ---------- 5. Сейчас: вопросы, оффер, галочки, кнопка ---------- */
+  var btn, hint, rows = [];
+  (function () {
+    var s = h("section", "sec"); s.id = "s5";
+    var w = wrap(s);
+    add(w, h("div", "lab", "05 · Сейчас"), h("h2", "", D.faq.title));
+
+    var faq = h("div", "faq");
+    D.faq.items.forEach(function (it) {
+      var det = document.createElement("details");
+      var sm = document.createElement("summary");
+      sm.appendChild(h("span", "t", it[0]));
+      var body = h("div", "dbody");
+      it[1].forEach(function (t) { body.appendChild(para(t)); });
+      add(det, sm, body);
+      faq.appendChild(det);
+    });
+    w.appendChild(faq);
+    app.appendChild(s);
+
+    /* оффер на отдельном фоне */
+
+    var s2 = h("section", "sec alt"); s2.id = "buy";
+    var w2 = wrap(s2), o = D.offer;
+    add(w2, h("div", "lab", "Оплата"), h("h2", "", o.title), h("p", "lead", o.lead));
+    band(w2, 3, D.bgEnd);
+    var box = h("div", "offer");
+    var colL = h("div"), colR = h("div");
+
+    var pr = h("p", "p", D.price);
+    pr.appendChild(h("small", "", "Разовый платёж за полный доступ к курсу"));
+    var ul = h("ul", "facts");
+    o.facts.forEach(function (f) { add(ul, add(h("li"), h("i", "", f[0]), h("span", "", f[1]))); });
+    add(colL, pr, ul, h("p", "fine", "Дополнительно понадобятся два сервиса: Claude (около $20 в месяц) и syntx.ai (тариф VIP около 3 990 ₽ или Elite около 5 990 ₽). Подробнее в разделе «Честно о вложениях»."), h("p", "", o.why));
+
+    var consent = h("div", "consent");
+    function row(before, linkText, url, after) {
+      var lab = h("label", "chk");
+      var inp = document.createElement("input"); inp.type = "checkbox";
+      var span = h("span");
+      span.appendChild(document.createTextNode(before));
+      span.appendChild(link(linkText, url));
+      if (after) span.appendChild(document.createTextNode(after));
+      add(lab, inp, span);
+      inp.addEventListener("change", sync);
+      rows.push({ lab: lab, inp: inp });
+      consent.appendChild(lab);
+    }
+    row("Я ознакомлен(а) с ", "Публичной офертой", D.docs.offer, " и принимаю её условия");
+    row("Я ознакомлен(а) с ", "Политикой в отношении обработки персональных данных", D.docs.policy);
+    row("Я даю ", "согласие на обработку персональных данных", D.docs.consent, " и подтверждаю, что мне исполнилось 18 лет");
+    colR.appendChild(consent);
+
+    btn = h("button", "btn block", o.buy + " · " + D.price);
+    btn.type = "button"; btn.setAttribute("aria-disabled", "true"); btn.style.marginTop = "10px";
+    hint = h("p", "hint", "Отметьте три пункта выше, чтобы перейти к оплате.");
+    hint.setAttribute("aria-live", "polite");
+    add(colR, btn, hint);
+    add(box, colL, colR);
+    w2.appendChild(box);
+    o.fine.forEach(function (f) { w2.appendChild(h("p", "fine", f)); });
+    app.appendChild(s2);
+
+    var swrap = h("div", "softwrap"), sw = wrap(swrap);
+    var soft = h("div", "soft");
+    add(soft, h("b", "", "Пока не готовы?"), h("p", "", "Подпишитесь на Telegram-канал «Творим что хотим» и вернитесь к курсу, когда будете готовы. Мои ролики можно посмотреть в Instagram."));
+    var sr = h("div", "cta-row");
+    add(sr, link("Telegram-канал", "https://t.me/+wt1exAqkgLhjZDEy", "btn ghost"), link("Instagram", "https://www.instagram.com/olgagatilova_ai/", "btn ghost"));
+    soft.appendChild(sr); sw.appendChild(soft);
+    app.appendChild(swrap);
+  })();
+
+  function allOk() { return rows.every(function (r) { return r.inp.checked; }); }
+  function sync() {
+    var ok = allOk();
+    btn.setAttribute("aria-disabled", ok ? "false" : "true");
+    rows.forEach(function (r) { r.lab.classList.remove("err"); r.lab.classList.toggle("ok", r.inp.checked); });
+    hint.className = "hint";
+    hint.textContent = ok ? "Всё отмечено, можно переходить к оплате." : "Отметьте три пункта выше, чтобы перейти к оплате.";
+  }
+  btn.addEventListener("click", function () {
+    if (!allOk()) {
+      rows.forEach(function (r) { r.lab.classList.toggle("err", !r.inp.checked); });
+      hint.className = "hint err";
+      hint.textContent = "Для оплаты нужно отметить все три пункта.";
+      btn.classList.remove("shake"); void btn.offsetWidth; btn.classList.add("shake");
+      return;
+    }
+    openExternal(D.payUrl);
+  });
+
+  /* ---------- подвал ---------- */
+  (function () {
+    var f = h("footer"), w = wrap(f);
+    var p = h("p");
+    p.appendChild(link("Публичная оферта", D.docs.offer)); p.appendChild(document.createTextNode(" · "));
+    p.appendChild(link("Политика обработки персональных данных", D.docs.policy)); p.appendChild(document.createTextNode(" · "));
+    p.appendChild(link("Согласие на обработку персональных данных", D.docs.consent));
+    var mail = h("p"); mail.appendChild(document.createTextNode("Связаться: "));
+    var ma = h("a", "", D.email); ma.href = "mailto:" + D.email; mail.appendChild(ma);
+    add(w, p, h("p", "", D.seller), mail);
+    app.appendChild(f);
+  })();
+
+  /* ссылки наружу: внутри Telegram открываем через его API */
+  document.addEventListener("click", function (e) {
+    var el = e.target, a = null;
+    while (el && el !== document) { if (el.tagName === "A" && el.getAttribute("data-ext")) { a = el; break; } el = el.parentNode; }
+    if (!a || !inTg) return;
+    e.preventDefault();
+    openExternal(a.getAttribute("href"));
+  });
+
+  /* подсветка текущего раздела */
+  var links = nav.querySelectorAll("a");
+  function setOn(i) { for (var k = 0; k < links.length; k++) { if (k === i) links[k].classList.add("on"); else links[k].classList.remove("on"); } }
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (ents) {
+      ents.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var n = en.target.id === "buy" ? 5 : parseInt(en.target.id.slice(1), 10);
+        setOn(n - 1);
+      });
+    }, { rootMargin: "-35% 0px -60% 0px" });
+    ["s1", "s2", "s3", "s4", "s5", "buy"].forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
+  }
+
+  /* плавающая кнопка на телефонах: видна, пока блок оплаты ниже экрана */
+  var fab = document.getElementById("fab"), offerEl = document.getElementById("buy"), tick = false;
+  fab.textContent = D.offer.fab;
+  function fabCheck() {
+    tick = false;
+    var r = offerEl.getBoundingClientRect();
+    if (window.pageYOffset > 420 && r.top > window.innerHeight * 0.85) fab.classList.add("show");
+    else fab.classList.remove("show");
+  }
+  window.addEventListener("scroll", function () { if (!tick) { tick = true; requestAnimationFrame(fabCheck); } }, { passive: true });
+  window.addEventListener("resize", fabCheck);
+  fabCheck();
+})();
+</script>
+</body>
+</html>
