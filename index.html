@@ -300,6 +300,21 @@ summary:after{transition:color .2s,-webkit-transform .2s,transform .2s}
   .pills a:hover{background:rgba(244,208,120,.3);border-color:#ffe08e}
   .top .top-btn:hover{background:#ffe08e}
 }
+.oldp{display:inline-block;margin-left:16px;font:500 28px/1 var(--head);color:rgba(246,238,223,.6);text-decoration:line-through;text-decoration-thickness:2px;vertical-align:middle;white-space:nowrap}
+@media (max-width:520px){.oldp{display:block;margin:10px 0 0 4px}}
+.pricecard .p{font-size:48px}
+.oldp{font-size:38px!important}
+@media (max-width:520px){.pricecard .p{font-size:44px}.oldp{font-size:34px!important}}
+.offer .p{font-size:50px}
+@media (min-width:900px){.offer .p{font-size:60px}}
+@media (max-width:520px){.offer .p{font-size:46px}}
+.oldp{color:var(--gold)!important;text-decoration-color:#e5484d!important;text-decoration-thickness:3px!important}
+.oldp{position:relative;text-decoration:none!important;width:-webkit-fit-content;width:fit-content;padding:0 2px}
+.oldp:after{content:"";position:absolute;left:-4px;right:-4px;top:2px;bottom:2px;pointer-events:none;background:linear-gradient(to top right,transparent calc(50% - 1.75px),#e5484d calc(50% - 1.75px),#e5484d calc(50% + 1.75px),transparent calc(50% + 1.75px))}
+.oldp:after{background:#e5484d!important;left:-6px!important;right:-6px!important;top:50%!important;bottom:auto!important;height:3px;margin-top:-1px;border-radius:2px;-webkit-transform:rotate(-17deg);transform:rotate(-17deg);-webkit-transform-origin:50% 50%;transform-origin:50% 50%}
+.oldp:after{height:6px!important;margin-top:-3px!important;border-radius:3px!important}
+.oldp{color:rgba(246,238,223,.65)!important}
+.p small.until,.price small.until{color:var(--gold)!important;font-weight:700;margin-top:8px}
 </style>
 </head>
 <body>
@@ -326,6 +341,8 @@ window.KK_DATA = {
   bgEnd: { video: "video/end.mp4", videoMobile: "video/end-m.mp4", poster: "video/end.jpg" },
   payUrl: "https://payform.ru/4qcV8r4/",
   price: "4 990 ₽",
+  oldPrice: "12 000 ₽",
+  until: "Специальная цена действует до 25 декабря",
   email: "olgatilova@mail.ru",
   docs: { offer: "oferta.pdf", policy: "politika.pdf", consent: "soglasie.pdf" },
 
@@ -823,7 +840,9 @@ window.KK_DATA = {
     var colL = h("div"), colR = h("div");
 
     var pr = h("p", "p", D.price);
+    if (D.oldPrice) { pr.appendChild(h("s", "oldp", D.oldPrice)); }
     pr.appendChild(h("small", "", "Разовый платёж за полный доступ к курсу"));
+    if (D.until) { pr.appendChild(h("small", "until", D.until)); }
     var ul = h("ul", "facts");
     o.facts.forEach(function (f) { add(ul, add(h("li"), h("i", "", f[0]), h("span", "", f[1]))); });
     add(colL, pr, ul, h("p", "fine", "Дополнительно понадобятся два сервиса: Claude (около $20 в месяц) и syntx.ai (тариф VIP около 3 990 ₽ или Elite около 5 990 ₽). Подробнее в разделе «Честно о вложениях»."), h("p", "", o.why));
