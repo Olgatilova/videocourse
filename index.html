@@ -286,6 +286,20 @@ footer p{margin:0 0 8px}
 .ctaa{margin-top:28px}
 .softwrap{padding:8px 0 40px}
 .softwrap .soft{margin-top:24px}
+
+/* ---------- наведение курсора (только мышь) ---------- */
+details{transition:background .2s,border-color .2s}
+summary:after{transition:color .2s,-webkit-transform .2s,transform .2s}
+.pills a{transition:background .2s,border-color .2s}
+@media (hover:hover){
+  .btn:hover{background:#ffe08e;-webkit-transform:translateY(-1px);transform:translateY(-1px)}
+  .btn.ghost:hover,.soft .btn.ghost:hover{background:rgba(244,208,120,.32);color:#fff}
+  details:hover{background:rgba(244,208,120,.10);border-color:rgba(244,208,120,.7)}
+  summary:hover .t{color:#fff}
+  summary:hover:after{color:#ffe08e;-webkit-transform:scale(1.2);transform:scale(1.2)}
+  .pills a:hover{background:rgba(244,208,120,.3);border-color:#ffe08e}
+  .top .top-btn:hover{background:#ffe08e}
+}
 </style>
 </head>
 <body>
